@@ -27,7 +27,12 @@ function TransferList() {
   const [checked, setChecked] = useState([]);
   const [checked2, setChecked2] = useState([]);
 
-  const moveAllToRight = () => {};
+  const moveAllToRight = () => {
+    let arr=list2.concat(list1)
+    setList2(arr)
+    setList1([])
+
+  };
   const moveRight = () => {
     let newList = list1.filter((item) => item.checked);
     let arr = list1.filter((item) => !item.checked);
@@ -59,7 +64,12 @@ function TransferList() {
     setList1([...list1, ...newList]);
     setList2(arr);
   };
-  const moveAllToLeft = () => {};
+  const moveAllToLeft = () => {
+    let arr=list1.concat(list2)
+    setList1(arr)
+    setList2([])
+
+  };
   const handleChange = (item) => {
     item.checked = true;
     list1.filter((item, index) => {});
@@ -72,7 +82,7 @@ function TransferList() {
         flexDirection: "row",
         justifyContent: "space-around",
         border: "1px solid",
-        margin: "50px",
+        margin: "0 100px",
         height: "400px",
 
       }}
