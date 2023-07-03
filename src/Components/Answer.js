@@ -6,36 +6,45 @@ import { useEffect, useState } from "react";
 export default function Answer() {
   const [imgList, setImgList] = useState([]);
   const [imgUrl, setImgUrl] = useState(0);
-  const [backIndex,setBackIndex]=useState(0);
-  const [CurrentIndex,setCurrentIndex]=useState(0)
-  const [disabledButton,setDisabledButton]=useState(false)
+  const [backIndex, setBackIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [disabledButton, setDisabledButton] = useState(false);
 
   const handleApiCall = (url) => {
-    if (CurrentIndex>=imgUrl){
+    setDisabledButton(false);
+
+    if (currentIndex >= imgUrl) {
       setImgUrl((prev) => {
         setImgUrl(prev + 1);
       });
     }
     // setImgUrl(url)
-   
-    setCurrentIndex(prev=>setCurrentIndex(prev+1));
-  };
-  const handleBack=(CurrentIndex)=>{
 
-    // setBackIndex(CurrentIndex-1)
-    
-    setCurrentIndex(prev=>setCurrentIndex(prev-1));
-    if(CurrentIndex<=0){setDisabledButton(true);setCurrentIndex(0)}
-  }
+    setCurrentIndex((prev) => setCurrentIndex(prev + 1));
+    console.log("next",currentIndex)
+
+  };
+  const handleBack = () => {
+    // setBackIndex(currentIndex-1)
+    console.log(currentIndex)
+
+    if (currentIndex <= 0) {
+      setDisabledButton(true);
+      setCurrentIndex(0);
+      console.log(currentIndex)
+    } else {
+      setCurrentIndex((prev) => setCurrentIndex(prev - 1));
+      console.log(currentIndex)
+
+    }
+  };
   useEffect(() => {
     axios.get("https://dog.ceo/api/breeds/image/random").then((img) => {
       setImgList([...imgList, img.data.message]);
       // setImgUrl(0);
-   
-      
     });
   }, [imgUrl]);
- console.log(setImgList)
+  // console.log(setImgList);
   return (
     <div
       className="main-div"
@@ -47,9 +56,9 @@ export default function Answer() {
       //   // padding: 8px;
       // }}
     >
-      <button onClick={handleBack}>Back</button>
+      <button onClick={handleBack} disabled={disabledButton}>Back</button>
       <img
-        src={imgList[CurrentIndex]}
+        src={imgList[currentIndex]}
         alt="Current Image"
         style={{ height: 100, width: 100, objectFit: "contain" }}
       />
@@ -58,7 +67,9 @@ export default function Answer() {
         <img src={item}/>
         </>
       })} */}
-      <button onClick={handleApiCall} disabled={disabledButton}>Next</button>
+      <button onClick={handleApiCall} >
+        Next
+      </button>
     </div>
   );
 }
